@@ -22,7 +22,11 @@ namespace Math {
 		Matrix& operator=(const Matrix& other);
 		Matrix operator*(const long& value);
 		Matrix operator+=(const Matrix& other);
+		Matrix operator-=(const Matrix& other);
 		Matrix operator*=(const Matrix& other);
+
+		bool operator==(const Matrix& other);
+		bool operator!=(const Matrix& other);
 
 		friend Matrix operator+(const Matrix & matrix_1, const Matrix & matrix_2);
 		friend Matrix operator-(const Matrix& matrix_1, const Matrix& matrix_2);

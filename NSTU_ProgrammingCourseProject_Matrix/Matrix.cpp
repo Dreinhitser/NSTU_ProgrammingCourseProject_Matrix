@@ -38,9 +38,9 @@ int Matrix::get(size_t i, size_t j) const
 void Matrix::print() const
 {
 	for (int i = 0; i < _rows; i++) {
-		for (int j = 0; j < _columns; j++) {
+		for (int j = 0; j < _columns; j++)
 			std::cout << this->get(i, j) << "\t";
-		}
+
 		std::cout << "\n";
 	}
 }
@@ -68,27 +68,45 @@ Matrix Matrix::operator+=(const Matrix& other)
 	return *this + other;
 }
 
+Matrix Matrix::operator-=(const Matrix& other)
+{
+	return *this - other;
+}
+
 Matrix Matrix::operator*=(const Matrix& other)
 {
 	return *this * other;
 }
 
+bool Matrix::operator==(const Matrix& other)
+{
+	if (other._matrix == this->_matrix)
+		return true;
+	else
+		return false;
+}
+
+bool Matrix::operator!=(const Matrix& other)
+{
+	if (other._matrix != this->_matrix)
+		return true;
+	else
+		return false;
+}
 
 Matrix Math::operator+(const Matrix& matrix_1, const Matrix& matrix_2)
 {
-	if (matrix_1._rows != matrix_2._rows || matrix_1._columns != matrix_2._columns) {
+	if (matrix_1._rows != matrix_2._rows || matrix_1._columns != matrix_2._columns)
 		throw std::logic_error("sum error");
-	}
 
 	Matrix result(matrix_2._rows, matrix_2._columns);
 	for (auto& it : matrix_1._matrix) {
 		auto it_other = matrix_2._matrix.find(it.first);
-		if (it_other != matrix_2._matrix.end()) {
+
+		if (it_other != matrix_2._matrix.end())
 			result.set(it.first.first, it.first.second, it.second + it_other->second);
-		}
-		else {
+		else
 			result.set(it.first.first, it.first.second, it.second);
-		}
 	}
 
 	return result;
@@ -96,19 +114,17 @@ Matrix Math::operator+(const Matrix& matrix_1, const Matrix& matrix_2)
 
 Matrix Math::operator-(const Matrix& matrix_1, const Matrix& matrix_2)
 {
-	if (matrix_1._rows != matrix_2._rows || matrix_1._columns != matrix_2._columns) {
-		throw std::logic_error("sum error");
-	}
+	if (matrix_1._rows != matrix_2._rows || matrix_1._columns != matrix_2._columns)
+		throw std::logic_error("subtraction error");
 
 	Matrix result(matrix_2._rows, matrix_2._columns);
 	for (auto& it : matrix_1._matrix) {
 		auto it_other = matrix_2._matrix.find(it.first);
-		if (it_other != matrix_2._matrix.end()) {
+
+		if (it_other != matrix_2._matrix.end())
 			result.set(it.first.first, it.first.second, it.second - it_other->second);
-		}
-		else {
+		else
 			result.set(it.first.first, it.first.second, it.second);
-		}
 	}
 
 	return result;
@@ -116,9 +132,8 @@ Matrix Math::operator-(const Matrix& matrix_1, const Matrix& matrix_2)
 
 Matrix Math::operator*(const Matrix& matrix_1, const Matrix& matrix_2)
 {
-	if (matrix_1._rows != matrix_2._columns) {
-		throw std::logic_error("");
-	}
+	if (matrix_1._rows != matrix_2._columns)
+		throw std::logic_error("multiplication error");
 
 	auto calc_element = [&](size_t i, size_t j) {
 		int value = 0;
@@ -136,11 +151,9 @@ Matrix Math::operator*(const Matrix& matrix_1, const Matrix& matrix_2)
 		};
 
 	Matrix result(matrix_1._rows, matrix_2._columns);
-	for (int i = 0; i < matrix_1._rows; i++) {
-		for (int j = 0; j < matrix_2._columns; j++) {
+	for (int i = 0; i < matrix_1._rows; i++)
+		for (int j = 0; j < matrix_2._columns; j++)
 			result.set(i, j, calc_element(i, j));
-		}
-	}
 
 	return result;
 }
